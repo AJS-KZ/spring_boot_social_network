@@ -1,0 +1,13 @@
+package kz.ajs.spring_boot_social_network;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringBootSocialNetworkApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringBootSocialNetworkApplication.class, args);
+	}
+
+}
