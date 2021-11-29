@@ -11,43 +11,23 @@
     <div class="container">
         <div class="row mt-5">
             <div class="col-6 offset-3">
-                <form th:action="@{'/additem'}" method="post">
+                <form th:action="@{'/saveitem'}" method="post">
                     <div class="form-group">
                         <label>
                             NAME :
                         </label>
-                        <input type="text" class="form-control" name="item_name">
+                        <input type="text" class="form-control" name="item_name" th:value="${item!=null?item.getName():''}">
                     </div>
                     <div class="form-group">
                         <label>
                             PRICE :
                         </label>
-                        <input type="number" class="form-control" name="item_price" value="0" max="10000000" min="0">
+                        <input type="number" class="form-control" name="item_price" value="0" max="10000000" min="0" th:value="${item!=null?item.getPrice():'0'}">
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-success my-sm-2">ADD ITEM</button>
+                        <button class="btn btn-success my-sm-2">SAVE ITEM</button>
                     </div>
                 </form>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-12">
-                <table class="table table-stripped">
-                    <thead>
-                        <th>ID</th>
-                        <th>NAME</th>
-                        <th>PRICE</th>
-                        <th>DETAILS</th>
-                    </thead>
-                    <tbody>
-                        <tr th:each="it : ${goods}">
-                            <td th:text="${it.getId()}"></td>
-                            <td th:text="${it.getName()}"></td>
-                            <td th:text="${it.getPrice()}"></td>
-                            <td><a th:href="@{'/details/'+${it.getId()}}" class="btn btn-info btn-sm">DETAILS</a></td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>

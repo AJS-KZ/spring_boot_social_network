@@ -5,6 +5,7 @@ import kz.ajs.spring_boot_social_network.db.Items;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -32,6 +33,13 @@ public class HomeController {
         DBManager.addItem(new Items(null, name, price));
 
         return "redirect:/";
+    }
+
+    @GetMapping(value = "/details/{item_id}")
+    public String details(Model model, @PathVariable(name = "item_id") Long id){
+        Items item = DBManager.getItem(id);
+        model.addAttribute("item", item);
+        return "details";
     }
 
 }
