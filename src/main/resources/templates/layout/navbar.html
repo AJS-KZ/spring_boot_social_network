@@ -7,21 +7,21 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{'/'}" th:text="#{label.home}"></a>
+                    <a class="nav-link" style="color: aliceblue" th:href="@{'/'}" th:text="#{label.home}"></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{'/about'}" th:text="#{label.about}">About</a>
+                    <a class="nav-link" style="color: aliceblue" th:href="@{'/about'}" th:text="#{label.about}">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="?lng=ru">RUS</a>
+                    <a class="nav-link" style="color: aliceblue" href="?lng=ru">RUS</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="?lng=end">ENG</a>
+                    <a class="nav-link" style="color: aliceblue" href="?lng=end">ENG</a>
                 </li>
             </ul>
             <form class="d-flex my-sm-2">
-                <input class="form-control me-3" type="search" th:placeholder="#{button.save}" aria-label="Search">
-                <button class="btn btn-outline-light" type="submit" th:text="#{button.save}"></button>
+                <input class="form-control me-3" type="search" th:placeholder="#{button.search}" aria-label="Search">
+                <button class="btn btn-outline-light" type="submit" th:text="#{button.search}"></button>
             </form>
         </div>
     </div>
