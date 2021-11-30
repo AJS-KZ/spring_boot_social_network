@@ -18,7 +18,6 @@ public class HomeController {
     public String index(Model model){
         ArrayList<Items> items = DBManager.getItems();
         model.addAttribute("goods", items);
-
         return "index";
     }
 
