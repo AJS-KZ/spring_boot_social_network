@@ -1,18 +1,19 @@
 package kz.ajs.spring_boot_social_network.entities;
 
+
 import lombok.AllArgsConstructor;
+import lombok.Cleanup;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name = "t_items")
+@Table(name = "t_categories")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShopItems {
+public class Categories {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,17 +22,5 @@ public class ShopItems {
 
     @Column(name = "name")
     private String name;
-
-    @Column(name = "price")
-    private int price;
-
-    @Column(name = "amount")
-    private int amount;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Countries country;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Categories> category;
 
 }
