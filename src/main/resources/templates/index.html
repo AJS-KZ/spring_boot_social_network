@@ -1,6 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="/layout/main.html">
+      layout:decorate="/layout/main.html"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div layout:fragment="content">
         <div class="row mt-5">
             <div class="col-6 offset-3">
@@ -37,7 +38,7 @@
                     <th th:text="#{label.name}"></th>
                     <th th:text="#{label.price}"></th>
                     <th th:text="#{label.amount}"></th>
-                    <th th:text="#{label.details}"></th>
+                    <th th:text="#{label.details}" sec:authorize="isAuthenticated()"></th>
                     <th th:text="#{label.country}"></th>
                     <th th:text="#{label.categories}"></th>
                     </thead>
@@ -54,7 +55,8 @@
                         <td><a th:href="@{'/details/'+${it.getId()}}"
                                class="btn btn-info btn-sm"
                                style="background-color: #3557ff; color: aliceblue; border-color: #3557ff;"
-                               th:text="#{label.details}"></a></td>
+                               th:text="#{label.details}"
+                               sec:authorize="isAuthenticated()"></a></td>
                     </tr>
                     </tbody>
                 </table>

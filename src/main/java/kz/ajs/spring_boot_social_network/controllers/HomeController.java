@@ -3,14 +3,21 @@ package kz.ajs.spring_boot_social_network.controllers;
 import kz.ajs.spring_boot_social_network.entities.Categories;
 import kz.ajs.spring_boot_social_network.entities.Countries;
 import kz.ajs.spring_boot_social_network.entities.ShopItems;
+import kz.ajs.spring_boot_social_network.entities.User;
 import kz.ajs.spring_boot_social_network.services.ItemService;
+import kz.ajs.spring_boot_social_network.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.extras.springsecurity5.auth.Authorization;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +28,13 @@ public class HomeController {
     @Autowired
     private ItemService itemService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping(value = "/")
     public String index(Model model){
+        model.addAttribute("currentUser", getUserData());
+
         List<ShopItems> items = itemService.getAllItems();
         model.addAttribute("goods", items);
 
@@ -33,7 +45,8 @@ public class HomeController {
     }
 
     @GetMapping(value = "/about")
-    public String about(){
+    public String about(Model model){
+        model.addAttribute("currentUser", getUserData());
         return "about";
     }
 
@@ -58,6 +71,8 @@ public class HomeController {
 
     @GetMapping(value = "/details/{item_id}")
     public String details(Model model, @PathVariable(name = "item_id") Long id){
+        model.addAttribute("currentUser", getUserData());
+
         ShopItems item = itemService.getItem(id);
         model.addAttribute("item", item);
         List<Countries> countries = itemService.getAllCountries();
@@ -125,6 +140,40 @@ public class HomeController {
 
         return "redirect:/";
 
+    }
+
+    @GetMapping(value = "/403")
+    public String accessDenied(Model model){
+        model.addAttribute("currentUser", getUserData());
+        return "403";
+    }
+
+    @GetMapping(value = "/login")
+    public String login(Model model){
+        model.addAttribute("currentUser", getUserData());
+        return "login";
+    }
+
+    @GetMapping(value = "/profile")
+    @PreAuthorize("isAuthenticated()")
+    public String profile(Model model){
+
+        model.addAttribute("currentUser", getUserData());
+
+        return "profile";
+    }
+
+    private User getUserData(){
+
+        Authentication authorization = SecurityContextHolder.getContext().getAuthentication();
+        if(!(authorization instanceof AnonymousAuthenticationToken)){
+            org.springframework.security.core.userdetails.User secUser =
+                    (org.springframework.security.core.userdetails.User)authorization.getPrincipal();
+            User myUser = userService.getUserByEmail(secUser.getUsername());
+            return myUser;
+        }
+
+        return null;
     }
 
 }

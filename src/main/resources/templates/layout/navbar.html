@@ -1,4 +1,7 @@
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #2738ff;" xmlns:th="http://www.thymeleaf.org">
+<nav class="navbar navbar-expand-lg navbar-dark"
+     style="background-color: #2738ff;"
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{'/'}">S.B.Project</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,15 +12,32 @@
                 <li class="nav-item">
                     <a class="nav-link" style="color: aliceblue" th:href="@{'/'}" th:text="#{label.home}"></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" style="color: aliceblue" th:href="@{'/about'}" th:text="#{label.about}">About</a>
+                <li class="nav-item" >
+                    <a class="nav-link" style="color: aliceblue" th:href="@{'/about'}" th:text="#{label.about}"></a>
                 </li>
+
+                <li class="nav-item" sec:authorize="isAnonymous()">
+                    <a class="nav-link" style="color: aliceblue" th:href="@{'/login'}">Login</a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" style="color: aliceblue" href="JavaScript:void(0)" onclick="document.getElementById('logoutFormId').submit()">Logout</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" style="color: aliceblue" th:href="@{'/profile'}" th:text="${currentUser.getFullName()}"></a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" style="color: aliceblue" href="?lng=ru">RUS</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" style="color: aliceblue" href="?lng=end">ENG</a>
                 </li>
+
+                <form th:action="@{'/logout'}" method="post" id="logoutFormId" sec:authorize="isAuthenticated()">
+
+                </form>
+
             </ul>
             <form class="d-flex my-sm-2">
                 <input class="form-control me-3" type="search" th:placeholder="#{button.search}" aria-label="Search">
