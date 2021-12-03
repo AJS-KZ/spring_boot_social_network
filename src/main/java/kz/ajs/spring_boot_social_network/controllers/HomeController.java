@@ -51,6 +51,7 @@ public class HomeController {
     }
 
     @PostMapping(value = "/additem")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')")
     public String addItem(@RequestParam(name = "item_name", defaultValue="no name") String name,
                           @RequestParam(name = "item_price", defaultValue = "0") int price,
                           @RequestParam(name = "item_amount", defaultValue = "0") int amount,
@@ -83,7 +84,23 @@ public class HomeController {
         return "details";
     }
 
+    @GetMapping(value = "/edititem/{item_id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')")
+    public String editItem(Model model, @PathVariable(name = "item_id") Long id){
+        model.addAttribute("currentUser", getUserData());
+
+        ShopItems item = itemService.getItem(id);
+        model.addAttribute("item", item);
+        List<Countries> countries = itemService.getAllCountries();
+        model.addAttribute("countries", countries);
+        List<Categories> allCategories = itemService.getAllCategories();
+        model.addAttribute("categories", allCategories);
+
+        return "edititem";
+    }
+
     @PostMapping(value = "/saveitem")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')")
     public String saveItem(@RequestParam(name = "item_id", defaultValue="0") Long id,
                            @RequestParam(name = "item_name", defaultValue="no name") String name,
                            @RequestParam(name = "item_price", defaultValue = "0") int price,
@@ -105,10 +122,11 @@ public class HomeController {
 
         itemService.saveItem(item);
 
-        return "redirect:/";
+        return "redirect:/edititem/"+id;
     }
 
     @PostMapping(value = "/deleteitem")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')")
     public String deleteItem(@RequestParam(name = "item_id", defaultValue = "0") Long id){
 
         ShopItems item = itemService.getItem(id);
@@ -120,6 +138,7 @@ public class HomeController {
     }
 
     @PostMapping(value = "/assigncategory")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')")
     public String assignCategory(@RequestParam(name = "item_id", defaultValue = "0") Long itemId,
                                  @RequestParam(name = "category_id", defaultValue = "0")Long categoryId){
 
@@ -134,7 +153,7 @@ public class HomeController {
                 categories.add(cat);
                 itemService.saveItem(item);
 
-                return "redirect:/details/"+item.getId();
+                return "redirect:/edititem/"+item.getId();
             }
         }
 
@@ -161,6 +180,19 @@ public class HomeController {
         model.addAttribute("currentUser", getUserData());
 
         return "profile";
+    }
+
+    @GetMapping(value = "/additem")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')")
+    public String addItem(Model model){
+
+        model.addAttribute("currentUser", getUserData());
+        List<Countries> countries = itemService.getAllCountries();
+        model.addAttribute("countries", countries);
+        List<Categories> allCategories = itemService.getAllCategories();
+        model.addAttribute("categories", allCategories);
+
+        return "additem";
     }
 
     private User getUserData(){

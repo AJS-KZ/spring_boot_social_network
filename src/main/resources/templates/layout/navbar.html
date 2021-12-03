@@ -34,6 +34,10 @@
                     <a class="nav-link" style="color: aliceblue" href="?lng=end">ENG</a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link" style="color: aliceblue" th:href="@{'/additem'}" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')">ADD ITEM</a>
+                </li>
+
                 <form th:action="@{'/logout'}" method="post" id="logoutFormId" sec:authorize="isAuthenticated()">
 
                 </form>
