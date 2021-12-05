@@ -55,16 +55,19 @@
             </div>
         </div>
 
-        <div class="row mt-3">
+        <div class="row mt-3" id="categoriesDiv">
             <div class="col-6 offset-3">
                 <table class="table table-striped">
                     <tbody>
                         <tr th:each="category: ${item.getCategory()}">
-                            <td class="py-2" th:text="${category.getName()}">
-                            <td width="10%">
-                                <button class="btn btn-danger btn-sm py-0">-</button>
-                            </td>
-                            </td>
+                            <form th:action="@{/unassigncategory}" method="post">
+                                <input type="hidden" th:value="${item.getId()}" name="item_id">
+                                <input type="hidden" th:value="${category.getId()}" name="category_id">
+                                <td class="py-2" th:text="${category.getName()}"></td>
+                                <td width="10%">
+                                    <button class="btn btn-danger btn-sm py-0">-</button>
+                                </td>
+                            </form>
                         </tr>
                     </tbody>
                 </table>

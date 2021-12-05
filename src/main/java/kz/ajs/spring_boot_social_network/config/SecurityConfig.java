@@ -22,10 +22,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //    @Autowired
     private final UserService userService;
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public BCryptPasswordEncoder passwordEncoder(){
+//        return new BCryptPasswordEncoder();
+//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

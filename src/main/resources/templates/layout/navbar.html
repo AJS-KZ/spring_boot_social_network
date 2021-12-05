@@ -17,10 +17,13 @@
                 </li>
 
                 <li class="nav-item" sec:authorize="isAnonymous()">
-                    <a class="nav-link" style="color: aliceblue" th:href="@{'/login'}">Login</a>
+                    <a class="nav-link" style="color: aliceblue" th:href="@{'/login'}" th:text="#{label.login}"></a>
+                </li>
+                <li class="nav-item" sec:authorize="isAnonymous()">
+                    <a class="nav-link" style="color: aliceblue" th:href="@{'/register'}" th:text="#{label.register}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link" style="color: aliceblue" href="JavaScript:void(0)" onclick="document.getElementById('logoutFormId').submit()">Logout</a>
+                    <a class="nav-link" style="color: aliceblue" href="JavaScript:void(0)" onclick="document.getElementById('logoutFormId').submit()" th:text="#{label.logout}"></a>
                 </li>
 
                 <li class="nav-item" sec:authorize="isAuthenticated()">
@@ -35,7 +38,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" style="color: aliceblue" th:href="@{'/additem'}" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')">ADD ITEM</a>
+                    <a class="nav-link" style="color: aliceblue" th:href="@{'/additem'}" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR')" th:text="#{label.add_item}"></a>
                 </li>
 
                 <form th:action="@{'/logout'}" method="post" id="logoutFormId" sec:authorize="isAuthenticated()">
